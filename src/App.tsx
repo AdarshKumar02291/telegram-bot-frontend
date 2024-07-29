@@ -36,7 +36,7 @@ const App: React.FC = () => {
   ];
 
   const [levelIndex, setLevelIndex] = useState(6);
-  const [points, setPoints] = useState(22749365);
+  const [points, setPoints] = useState(1000000);
   const [clicks, setClicks] = useState<{ id: number, x: number, y: number }[]>([]);
   const pointsToAdd = 11;
   const profitPerHour = 126420;
@@ -125,10 +125,17 @@ const App: React.FC = () => {
   useEffect(() => {
     const pointsPerSecond = Math.floor(profitPerHour / 3600);
     const interval = setInterval(() => {
-      setPoints(prevPoints => prevPoints + pointsPerSecond);
+      
+      setPoints(prevPoints => prevPoints - pointsPerSecond);
+      
     }, 1000);
+    if(points<=0)
+    {
+      setPoints(0);
+      clearInterval(interval)
+    }
     return () => clearInterval(interval);
-  }, [profitPerHour]);
+  }, [profitPerHour,points]);
 
   return (
     <div className="bg-black flex justify-center">
